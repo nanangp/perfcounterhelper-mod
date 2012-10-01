@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <summary>This library makes it easier to add Performance Counter into your application. For manual installer please visit the download section on applicaiton site.</summary>
+    <description>Helpful utility to administrate counters when your application does not run with administrative priviledges.</description>
+    <projectUrl>http://perfmoncounterhelper.codeplex.com/</projectUrl>
+    <licenseUrl>http://perfmoncounterhelper.codeplex.com/license</licenseUrl>
+    <tags>counter performance perfmon analysis test health framework library</tags>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright 2009</copyright>
+    <language>en-US</language> 
+  </metadata>
+</package>

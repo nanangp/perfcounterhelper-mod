@@ -1,0 +1,1 @@
+nuget pack PerformanceCounterHelper.csproj -Prop Configuration=Release -Symbols
