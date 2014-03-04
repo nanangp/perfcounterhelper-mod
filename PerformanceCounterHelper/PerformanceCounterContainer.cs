@@ -24,7 +24,7 @@ namespace PerformanceCounterHelper
                 if (_disposed)
                     throw new ObjectDisposedException("PerformanceCounterContainer");
 
-                return this._performanceCounterInstance; 
+                return _performanceCounterInstance; 
             } 
         }
         /// <summary>
@@ -38,7 +38,7 @@ namespace PerformanceCounterHelper
                 if (_disposed)
                     throw new ObjectDisposedException("PerformanceCounterContainer");
 
-                return this._performanceCounterBaseInstance;
+                return _performanceCounterBaseInstance;
             }
         }
 
@@ -52,16 +52,20 @@ namespace PerformanceCounterHelper
                 if (_disposed)
                     throw new ObjectDisposedException("PerformanceCounterContainer");
 
-                return this._baseAutoIncreased; 
+                return _baseAutoIncreased; 
             } 
         }
-        
+
         /// <summary>
         /// Creates a container with only the relevant performance counter. This constructor sets the base instance in null and the autoincrease value to false
         /// If the performance counter you are passing as argument needs a base, you should consider using the other constructor.
         /// </summary>
         /// <param name="performanceCounterInstance">instance of performance counter</param>
-        public PerformanceCounterContainer(PerformanceCounter performanceCounterInstance) : this(performanceCounterInstance, null, false) { }
+        public PerformanceCounterContainer(PerformanceCounter performanceCounterInstance)
+            : this(performanceCounterInstance, null, false)
+        {
+        }
+
         /// <summary>
         /// Creates a container with the relevant performance counter and the base one associated, setting also if the base counter should be increased / decreased when the relevant one is modified.
         /// If the autoincreased value is set to true, then when increasing or decreasing the relevant counter, the base is increased / decreased by 1. In case the autoincrease is set to false, the  user
@@ -70,22 +74,29 @@ namespace PerformanceCounterHelper
         /// <param name="performanceCounterInstance">instance of performance counter</param>
         /// <param name="performanceCounterBaseInstance">instance of performance counter being the base of the performanceCounterInstance</param>
         /// <param name="autoIncrease">true, to autoincrease the base, false if you prefer doing it manually.</param>
-        public PerformanceCounterContainer(PerformanceCounter performanceCounterInstance, PerformanceCounter performanceCounterBaseInstance, bool autoIncrease) {
-
-            this._performanceCounterInstance = performanceCounterInstance;
-            this._performanceCounterBaseInstance = performanceCounterBaseInstance;
-            this._baseAutoIncreased = autoIncrease;
+        public PerformanceCounterContainer(
+            PerformanceCounter performanceCounterInstance, 
+            PerformanceCounter performanceCounterBaseInstance, 
+            bool autoIncrease
+        )
+        {
+            _performanceCounterInstance = performanceCounterInstance;
+            _performanceCounterBaseInstance = performanceCounterBaseInstance;
+            _baseAutoIncreased = autoIncrease;
         }
 
         #region IDisposable Members
-        private bool _disposed; //false
+        private bool _disposed;
         private void Dispose(bool disposing)
         {
             if (disposing)
             {
-                this._disposed = true;
-                this._performanceCounterInstance.RawValue = PerformanceHelper.getInitialValue(this._performanceCounterInstance.CounterType);
-                this._performanceCounterInstance.Dispose();
+                _disposed = true;
+                _performanceCounterInstance.RawValue = PerformanceHelper.getInitialValue(_performanceCounterInstance.CounterType);
+                _performanceCounterInstance.Dispose();
+                
+                if (_performanceCounterBaseInstance != null)
+                    _performanceCounterInstance.Dispose();
             }
         }
         /// <summary>
@@ -93,7 +104,7 @@ namespace PerformanceCounterHelper
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -102,7 +113,7 @@ namespace PerformanceCounterHelper
         /// </summary>
         ~PerformanceCounterContainer()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
         #endregion
     }

@@ -104,6 +104,7 @@ namespace PerformanceCounterHelper.Impl
                 this._counters.Add(enumerator.Current.Key, performanceCounterContainer);
             }
         }
+
         /// <summary>
         /// Internal Constructor for not named instances 
         /// </summary>
@@ -716,6 +717,7 @@ namespace PerformanceCounterHelper.Impl
             }
             return counter.PerformanceCounterBaseInstance;
         }
+
         #endregion
         #endregion
 
@@ -735,6 +737,18 @@ namespace PerformanceCounterHelper.Impl
             return counter;
         }
 
+        public void RemoveInstancesAndDispose()
+        {
+            foreach (var container in _counters.Values)
+            {
+                container.PerformanceCounterInstance.RemoveInstance();
+                
+                if (container.PerformanceCounterBaseInstance != null)
+                    container.PerformanceCounterBaseInstance.RemoveInstance();
+            }
+
+            Dispose();
+        }
 
     }
 }
